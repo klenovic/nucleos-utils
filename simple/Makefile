@@ -1,77 +1,17 @@
-CC=$(CROSS_COMPILE)gcc
+app-y := basename cat cdprobe cgrep chmem chmod chown chroot \
+	 cleantmp cp cut dd dev2name devsize df dirname du \
+	 find fsck1 fsck getty grep head intr kill last \
+	 loadramdisk login ls lspci mkdir mkfifo mkfs mknod \
+	 mount newroot nice nohup nonamed passwd paste printenv \
+	 printf printroot pwd ramdisk readfs rmdir sleep sort \
+	 split stat stty su sync synctree sysenv tail tee \
+	 termcap time top touch tr truncate tty umount uname \
+	 uniq update wc which whoami who xargs
 
-prog-y := basename.c \
-	  cat.c \
-	  cdprobe.c \
-	  cgrep.c \
-	  chmem.c \
-	  chmod.c \
-	  chown.c \
-	  chroot.c \
-	  cleantmp.c \
-	  cp.c \
-	  cut.c \
-	  dd.c \
-	  dev2name.c \
-	  devsize.c \
-	  df.c \
-	  dirname.c \
-	  du.c \
-	  find.c \
-	  fsck1.c \
-	  fsck.c \
-	  getty.c \
-	  grep.c \
-	  head.c \
-	  intr.c \
-	  kill.c \
-	  last.c \
-	  loadramdisk.c \
-	  login.c \
-	  ls.c \
-	  lspci.c \
-	  mkdir.c \
-	  mkfifo.c \
-	  mkfs.c \
-	  mknod.c \
-	  mount.c \
-	  newroot.c \
-	  nice.c \
-	  nohup.c \
-	  nonamed.c \
-	  passwd.c \
-	  paste.c \
-	  printenv.c \
-	  printf.c \
-	  printroot.c \
-	  pwd.c \
-	  ramdisk.c \
-	  readfs.c \
-	  rmdir.c \
-	  sleep.c \
-	  sort.c \
-	  split.c \
-	  stat.c \
-	  stty.c \
-	  su.c \
-	  sync.c \
-	  synctree.c \
-	  sysenv.c \
-	  tail.c \
-	  tee.c \
-	  termcap.c \
-	  time.c \
-	  top.c \
-	  touch.c \
-	  tr.c \
-	  truncate.c \
-	  tty.c \
-	  umount.c \
-	  uname.c \
-	  uniq.c \
-	  update.c \
-	  wc.c \
-	  which.c \
-	  whoami.c \
-	  who.c \
-	  xargs.c
+all: $(app-y)
+
+clean:
+	rm -rf *.o
+
+distclean: clean
+	rm $(app-y)
