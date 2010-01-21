@@ -8,7 +8,9 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#endif
 #include <limits.h>
 #include <errno.h>
 #include <string.h>

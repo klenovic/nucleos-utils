@@ -57,7 +57,11 @@
 #include <stdio.h>
 #include <errno.h>
 
+#ifndef __nucleos__
 #include <minix/paths.h>
+#else
+#include <paths.h>
+#endif
 
 #define  FALSE	0
 #define  TRUE	1
@@ -349,12 +353,14 @@ void Print_Uptime()
   }
   printf(" %lu:%02lu,", (up % (24 * 3600L)) / 3600, (up % 3600) / 60);
   printf("  %u user%s", nusers, nusers == 1 ? "" : "s");
+#ifndef __nucleos__
   if((nloads = getloadavg(loads, NLOADS)) > 0) {
 	int i;
 	printf(", load averages:");
 	for(i = 0; i < nloads; i++)
 		printf("%s %.2f", (i > 0) ? "," : "", loads[i]);
   }
+#endif
   printf("\n");
 }
 

@@ -9,9 +9,10 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
+#ifndef __nucleos__
 #include <minix/config.h>
 #include <minix/const.h>
-
+#endif
 #define PATH_DEV "/dev"
 
 int

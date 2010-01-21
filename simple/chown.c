@@ -20,7 +20,9 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#endif
 #include <stdio.h>
 
 #ifndef S_ISLNK

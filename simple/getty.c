@@ -123,7 +123,9 @@ void do_getty(char *name, size_t len, char **args, char *ttyname)
 				case 'r':  std_out(utsname.release); break;
 				case 'v':  std_out(utsname.version); break;
 				case 'm':  std_out(utsname.machine); break;
+#ifndef __nucleos__
 				case 'p':  std_out(utsname.arch); break;
+#endif
 				case 't':  std_out(ttyname); break;
 #if __minix_vmd
 				case 'k':  std_out(utsname.kernel); break;

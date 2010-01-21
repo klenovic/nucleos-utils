@@ -22,7 +22,11 @@
 #include <string.h>
 #include <unistd.h>
 
+#ifndef __nucleos__
 #include "../../servers/mfs/const.h"
+#else
+#include <nucleos/magic.h>
+#endif
 
 char pvd[CD_SECTOR];
 

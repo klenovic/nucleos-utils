@@ -11,7 +11,9 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <unistd.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#endif
 #include <stdio.h>
 
 #define USR_MODES (S_ISUID|S_IRWXU)

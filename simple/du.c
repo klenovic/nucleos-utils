@@ -43,9 +43,10 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <dirent.h>
+#ifndef __nucleos__
 #include <minix/config.h>
 #include <minix/const.h>
-
+#endif
 extern char *optarg;
 extern int optind;
 
@@ -67,9 +68,13 @@ typedef struct already {
 
 _PROTOTYPE(int main, (int argc, char **argv));
 _PROTOTYPE(int makedname, (char *d, char *f, char *out, int outlen));
+#ifndef __nucleos__
 _PROTOTYPE(int done, (Dev_t dev, Ino_t inum, Nlink_t nlink));
 _PROTOTYPE(long dodir, (char *d, int thislev, Dev_t dev));
-
+#else
+_PROTOTYPE(int done, (dev_t dev, ino_t inum, nlink_t nlink));
+_PROTOTYPE(long dodir, (char *d, int thislev, dev_t dev));
+#endif
 char *prog;			/* program name */
 char *optstr = "asxdl:";	/* options */
 int silent = 0;			/* silent mode */

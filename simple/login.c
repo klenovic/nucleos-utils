@@ -55,10 +55,10 @@
  * Kees J. Bot - Jan 3 1996
  *  - ported back to standard Minix.
  */
-
+#ifndef __nucleos__
 #define _MINIX_SOURCE
 #define _POSIX_C_SOURCE	2
-
+#endif
 #include <sys/types.h>
 #include <ttyent.h>
 #include <sys/stat.h>
@@ -74,9 +74,12 @@
 #include <utmp.h>
 #include <time.h>
 #include <sys/utsname.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
 #include <minix/paths.h>
-
+#else
+#include <paths.h>
+#endif
 char PATH_UTMP[] = _PATH_UTMP;			/* current logins */
 char PATH_WTMP[] = _PATH_WTMP;		/* login/logout history */
 char PATH_LASTLOG[] = _PATH_LASTLOG;	/* last login history */
