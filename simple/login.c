@@ -79,6 +79,7 @@
 #include <minix/paths.h>
 #else
 #include <paths.h>
+#include <crypt.h>
 #endif
 char PATH_UTMP[] = _PATH_UTMP;			/* current logins */
 char PATH_WTMP[] = _PATH_WTMP;		/* login/logout history */

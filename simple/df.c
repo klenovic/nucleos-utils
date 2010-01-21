@@ -24,12 +24,16 @@
 #if __minix_vmd
 #include <sys/mnttab.h>
 #else
+#ifndef __nucleos__
 #include <minix/minlib.h>
 #endif
+#endif
 
+#ifndef __nucleos__
 #include <minix/config.h>
 #include <minix/const.h>
 #include <minix/type.h>
+#endif
 #include <servers/mfs/const.h>
 #include <servers/mfs/type.h>
 #include <servers/mfs/super.h>

@@ -26,6 +26,7 @@
 #include "../../servers/mfs/const.h"
 #else
 #include <nucleos/magic.h>
+#define SUPER_V3	MINIX3_SUPER_MAGIC
 #endif
 
 char pvd[CD_SECTOR];
