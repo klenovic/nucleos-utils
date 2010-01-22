@@ -1,7 +1,7 @@
 app-y := basename cdprobe chmod chown chroot \
 	 cleantmp cp cut dd dev2name df dirname du \
 	 getty head intr kill last \
-	 loadramdisk login ls lspci mkdir mkfifo mkfs mknod \
+	 loadramdisk login ls mkdir mkfifo mkfs mknod \
 	 mount newroot nice nohup nonamed passwd paste printenv \
 	 printf printroot pwd ramdisk readfs rmdir sleep sort \
 	 split stat stty su sync synctree sysenv tail tee \
