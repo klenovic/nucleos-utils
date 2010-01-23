@@ -9,13 +9,19 @@
 #include <sys/mount.h>
 #include <unistd.h>
 #include <fcntl.h>
+#ifndef __nucleos__
 #include <minix/config.h>
 #include <minix/const.h>
 #include <minix/minlib.h>
 #include <minix/swap.h>
 #include <sys/svrctl.h>
+#endif
 #include <stdio.h>
+#ifndef __nucleos__
 #include "../../servers/mfs/const.h"
+#else
+#include <servers/mfs/const.h>
+#endif
 
 #define MINIX_FS_TYPE "mfs"
 
@@ -25,7 +31,9 @@ _PROTOTYPE(void usage, (void));
 _PROTOTYPE(void tell, (char *this));
 _PROTOTYPE(void swapon, (char *file));
 
+#ifndef __nucleos__
 static u8_t MAGIC[] = { SWAP_MAGIC0, SWAP_MAGIC1, SWAP_MAGIC2, SWAP_MAGIC3 };
+#endif
 
 int main(argc, argv)
 int argc;
@@ -67,7 +75,9 @@ char *argv[];
 
   if (swap) {
 	if (argc != 2) usage();
+#ifndef __nucleos__
 	swapon(argv[1]);
+#endif
 	tell(argv[1]);
 	tell(" is swapspace\n");
   } else {
@@ -181,6 +191,7 @@ char *this;
   write(1, this, strlen(this));
 }
 
+#ifndef __nucleos__
 void swapon(file)
 char *file;
 {
@@ -227,3 +238,4 @@ char *file;
 	exit(1);
   }
 }
+#endif /* __nucleos__ */

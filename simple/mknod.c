@@ -3,7 +3,9 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#endif
 #include <errno.h>
 #include <stdio.h>
 

@@ -21,26 +21,48 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#ifndef __nucleos__
 #include <minix/config.h>
 #include <minix/const.h>
 #include <minix/type.h>
 #include <minix/minlib.h>
 #include "../../servers/mfs/const.h"
+#else
+#include <nucleos/const.h>
+#include <servers/mfs/const.h>
+#endif
 #if (MACHINE == IBM_PC)
+#ifndef __nucleos__
 #include <minix/partition.h>
 #include <minix/u64.h>
 #include <sys/ioctl.h>
+#else
+#include <nucleos/partition.h>
+#endif /* __nucleos__ */
 #endif
+#ifndef __nucleos__
 #include <a.out.h>
 #include <tools.h>
+#endif /* __nucleos__ */
 #include <dirent.h>
 
+#ifndef __nucleos__
 #undef EXTERN
 #define EXTERN			/* get rid of EXTERN by making it null */
 #include "../../servers/mfs/super.h"
 #include "../../servers/mfs/type.h"
 #include "../../servers/mfs/inode.h"
 #include <minix/fslib.h>
+#else
+#include <servers/mfs/super.h>
+#include <servers/mfs/type.h>
+#include <asm/ioctls.h>
+
+#define Ino_t		ino_t
+#define SECTOR_SIZE	512
+#define lseek64(a, b, c, d)	lseek64(a, b, c)
+
+#endif
 
 #ifndef max
 #define max(a,b) ((a) > (b) ? (a) : (b))

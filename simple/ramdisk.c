@@ -1,7 +1,11 @@
-
+#ifndef __nucleos__
 #include <minix/paths.h>
 
 #include <sys/ioc_memory.h>
+#else
+#include <paths.h>
+#include <asm/ioctls.h>
+#endif
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>

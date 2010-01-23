@@ -3,13 +3,19 @@
 #define _MINIX 1		/* for proto of the non-POSIX umount() */
 #define _POSIX_SOURCE 1		/* for PATH_MAX from limits.h */
 
+#ifndef __nucleos__
 #include <minix/type.h>
 #include <sys/types.h>
 #include <sys/svrctl.h>
+#else
+#include <sys/types.h>
+#endif
 #include <fcntl.h>
 #include <errno.h>
 #include <limits.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>

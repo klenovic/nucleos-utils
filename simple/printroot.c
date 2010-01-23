@@ -23,7 +23,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#endif
 #include <dirent.h>
 
 static char DEV_PATH[] = "/dev/";	/* #define would step on sizeof bug */

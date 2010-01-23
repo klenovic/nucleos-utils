@@ -1,7 +1,7 @@
 /* termcap - print termcap settings	Author: Terrence Holm */
 
 #include <stdlib.h>
-#include <termcap.h>
+//#include <termcap.h>
 #include <stdio.h>
 
 #define  TC_BUFFER  1024	/* Size of termcap(3) buffer	*/

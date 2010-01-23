@@ -5,7 +5,9 @@
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#endif
 
 #define	MAXFD	18
 #define CHUNK_SIZE	4096

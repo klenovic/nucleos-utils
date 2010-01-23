@@ -1,7 +1,8 @@
-CC=$(CROSS_COMPILE)gcc -imacros $(CURDIR)/macros.h -D__nucleos__
+CC=$(CROSS_COMPILE)gcc 
+CFLAGS=-imacros $(CURDIR)/macros.h -D__nucleos__
 STRIP=$(CROSS_COMPILE)strip
 
-export CC STRIP
+export CC STRIP CFLAGS
 
 subdir-y := simple
 #cron reboot syslogd

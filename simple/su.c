@@ -13,7 +13,11 @@
 #if __minix_vmd
 #include <sys/syslog.h>
 #endif
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#else
+#include <crypt.h>
+#endif
 
 _PROTOTYPE(int main, (int argc, char **argv));
 

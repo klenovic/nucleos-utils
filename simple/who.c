@@ -10,8 +10,11 @@
 #include <utmp.h>
 #include <time.h>
 #include <string.h>
+#ifndef __nucleos__
 #include <minix/paths.h>
-
+#else
+#include <paths.h>
+#endif
 char PATH_UTMP[] = _PATH_UTMP;
 
 char day[] = "SunMonTueWedThuFriSat";

@@ -118,11 +118,13 @@ char **argv;
 		print(STDOUT_FILENO, " ", (char *) NULL);
 	print(STDOUT_FILENO, un.machine, (char *) NULL);
   }
+#ifndef __nucleos__
   if ((info & ARCH) != 0) {
 	if ((info & (SYSNAME|NODENAME|RELEASE|VERSION|U_MACHINE)) != 0)
 		print(STDOUT_FILENO, " ", (char *) NULL);
 	print(STDOUT_FILENO, un.arch, (char *) NULL);
   }
+#endif
   print(STDOUT_FILENO, "\n", (char *) NULL);
   return EXIT_SUCCESS;
 }

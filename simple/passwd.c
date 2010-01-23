@@ -12,8 +12,22 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/stat.h>
+#ifndef __nucleos__
 #include <minix/minlib.h>
+#else
+#undef _POSIX_SOURCE	/* for getpwnet */
+#include <pwd.h>
+#include <crypt.h>
+#endif
 #include <stdio.h>
+
+#ifdef __nucleos__
+#define itoa(value) ({			\
+	char __str[20];			\
+	sprintf(__str,"%d",value);	\
+	__str;				\
+})
+#endif
 
 _PROTOTYPE(void report, (char *label));
 _PROTOTYPE(void quit, (int ex_stat));
