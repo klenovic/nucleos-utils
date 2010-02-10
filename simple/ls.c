@@ -34,6 +34,12 @@ char l_ifmt[] = "0pcCd?bB-?l?s???";
 #include <termios.h>
 #include <sys/ioctl.h>
 
+#ifdef __nucleos__
+#define __minix		1
+#define ST_BLOCKS	1
+#define ST_BLKSIZE	1
+#endif
+
 #ifndef major
 #define major(dev)	((int) (((dev) >> 8) & 0xFF))
 #define minor(dev)	((int) (((dev) >> 0) & 0xFF))
@@ -153,7 +159,7 @@ char *idname(unsigned id, enum whatmap map)
 	struct idname **ids= &(map == PASSWD ? uids : gids)[id % NNAMES];
 
 	while ((i= *ids) != nil && id < i->id) ids= &i->next;
-
+//return "noid";
 	if (i == nil || id != i->id) {
 		/* Not found, go look in the password or group map. */
 		char *name= nil;
@@ -162,11 +168,9 @@ char *idname(unsigned id, enum whatmap map)
 		if (!present('n')) {
 			if (map == PASSWD) {
 				struct passwd *pw= getpwuid(id);
-
 				if (pw != nil) name= pw->pw_name;
 			} else {
 				struct group *gr= getgrgid(id);
-
 				if (gr != nil) name= gr->gr_name;
 			}
 		}
@@ -175,7 +179,6 @@ char *idname(unsigned id, enum whatmap map)
 			sprintf(noname, "%u", id);
 			name= noname;
 		}
-
 		/* Add a new id-to-name cell. */
 		i= allocate(sizeof(*i));
 		i->id= id;
@@ -262,6 +265,9 @@ struct file {		/* A file plus stat(2) information. */
 #if ST_BLOCKS
 	long		blocks;
 #endif
+#if ST_BLKSIZE
+	long		blksize;
+#endif
 };
 
 void setstat(struct file *f, struct stat *stp)
@@ -278,6 +284,9 @@ void setstat(struct file *f, struct stat *stp)
 	f->ctime=	stp->st_ctime;
 #if ST_BLOCKS
 	f->blocks=	stp->st_blocks;
+#endif
+#if ST_BLKSIZE
+	f->blksize=	stp->st_blksize;
 #endif
 }
 
@@ -737,6 +746,7 @@ void print1(struct file *f, int col, int doit)
 			width++;
 		}
 	}
+
 	if (field & L_BLOCKS) {
 		unsigned long nb= nblk2k(nblocks(f));
 		if (doit) {
@@ -746,6 +756,7 @@ void print1(struct file *f, int col, int doit)
 			width++;
 		}
 	}
+
 	if (field & L_MODE) {
 		if (doit) {
 			printf("%s ", permissions(f));
@@ -753,6 +764,7 @@ void print1(struct file *f, int col, int doit)
 			width+= (field & L_EXTRA) ? 5 : 11;
 		}
 	}
+
 	if (field & L_EXTRA) {
 		p= cxsize(f);
 		n= strlen(p)+1;
@@ -782,13 +794,13 @@ void print1(struct file *f, int col, int doit)
 				width+= 2;
 			}
 		}
+
 		if (doit) {
 			printf("%-*s  ", f1width[W_GID], gidname(f->gid));
 		} else {
 			maxise(&f1width[W_GID], strlen(gidname(f->gid)));
 			width+= 2;
 		}
-
 		switch (f->mode & S_IFMT) {
 		case S_IFBLK:
 		case S_IFCHR:
@@ -935,7 +947,6 @@ int print(struct file *flist, int nplin, int doit)
 
 	while (--nlines >= 0) {
 		totlen= 0;
-
 		for (col= 0; col < nplin; col++) {
 			if ((f= filecol[col]) != nil) {
 				filecol[col]= f->next;
@@ -1000,7 +1011,6 @@ void listfiles(struct file *flist, enum depth depth, enum state state)
 	if (depth == SUBMERGED && (field & (L_BLOCKS | L_LONG))) {
 		printf("total %ld\n", nblk2k(countblocks(flist)));
 	}
-
 	if (state == SINKING || depth == SURFACE1) {
 	/* Don't list directories themselves, list their contents later. */
 		afl= &flist;
@@ -1017,13 +1027,10 @@ void listfiles(struct file *flist, enum depth depth, enum state state)
 	if ((nfiles= countfiles(flist)) > 0) {
 		/* Print files in how many columns? */
 		nplin= !present('C') ? 1 : nfiles < MAXCOLS ? nfiles : MAXCOLS;
-
 		while (!print(flist, nplin, 0)) nplin--;	/* Try first */
-
 		print(flist, nplin, 1);		/* Then do it! */
 		white = 0;
 	}
-
 	while (flist != nil) {	/* Destroy file list */
 		if (state == FLOATING && (flist->mode & S_IFMT) == S_IFDIR) {
 			/* But keep these directories for ls -R. */
@@ -1054,6 +1061,7 @@ void listfiles(struct file *flist, enum depth depth, enum state state)
 		}
 		delfile(popfile(&dlist));
 	}
+
 }
 
 int main(int argc, char **argv)

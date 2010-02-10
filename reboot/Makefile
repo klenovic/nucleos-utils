@@ -1,43 +1,40 @@
 # Makefile for shutdown / halt / reboot.
+app-y := reboot shutdown
 
-CFLAGS=$(OPT) -D_MINIX -D_POSIX_SOURCE
-LDFLAGS=-i
-CC=exec cc
+path_bin +=
 
-PROGRAMS=	shutdown halt tinyhalt
-MANUALS=	shutdown.8 halt.8 reboot.2 reboot.8
+path_usr_bin +=
 
-all:	$(PROGRAMS)
+path_sbin += reboot shutdown
 
-shutdown:	shutdown.o sh_wall.o log.o
-	$(CC) $(LDFLAGS) -o shutdown shutdown.o sh_wall.o log.o
-	install -S 4kw $@
+all: $(app-y)
 
-halt:	halt.o log.o
-	$(CC) $(LDFLAGS) -o halt halt.o log.o
-	install -S 4kw $@
+INSTALL_DIR=_install
 
-tinyhalt:	tinyhalt.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $?
-	install -S 4kw $@
-
-install:	/usr/bin/halt /usr/bin/reboot /usr/bin/shutdown \
-		/bin/halt /bin/reboot
-
-/usr/bin/halt:	halt
-	install -cs -o root -g operator -m 744 $? $@
-
-/usr/bin/reboot:	/usr/bin/halt
-	install -l $? $@
-
-/usr/bin/shutdown:	shutdown
-	install -cs -o root -g operator -m 4754 $? $@
-
-/bin/halt:	tinyhalt
-	install -cs -o root -g operator -m 744 $? $@
-
-/bin/reboot:	/bin/halt
-	install -l $? $@
+install: $(app-y)
+	$(STRIP) $(app-y)
+	rm -rf $(INSTALL_DIR)
+	mkdir $(INSTALL_DIR)
+	$(if $(strip $(path_bin)),mkdir $(INSTALL_DIR)/bin)
+	$(if $(strip $(path_usr_bin)),mkdir $(INSTALL_DIR)/usr)
+	$(if $(strip $(path_usr_bin)),mkdir $(INSTALL_DIR)/usr/bin)
+	$(if $(strip $(path_sbin)),mkdir $(INSTALL_DIR)/sbin)
+	$(if $(strip $(path_bin)),cp $(path_bin) $(INSTALL_DIR)/bin/)
+	$(if $(strip $(path_usr_bin)),cp $(path_usr_bin) $(INSTALL_DIR)/usr/bin/)
+	$(if $(strip $(path_sbin)),cp $(path_sbin) $(INSTALL_DIR)/sbin/)
 
 clean:
-	rm -f *.o a.out core $(PROGRAMS)
+	rm -rf *.o
+
+distclean: clean
+	rm -f $(app-y)
+	rm -rf _install
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+shutdown: shutdown.o sh_wall.o log.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+reboot: halt.o log.o
+	$(CC) $(CFLAGS) -o $@ $^

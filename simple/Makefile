@@ -1,18 +1,27 @@
 app-y := basename cdprobe chmod chown chroot \
-	 cleantmp cp cut dd dev2name df dirname du \
-	 getty head intr kill last \
+	 cleantmp cut dd dev2name df dirname du \
+	 getty head id intr kill last \
 	 loadramdisk login ls mkdir mkfifo mknod \
 	 mount newroot nice nohup passwd paste printenv \
-	 printroot pwd ramdisk rmdir sleep sort \
+	 printroot pwd ramdisk rmdir sleep \
 	 split stat stty su sync tail tee \
 	 time touch tr truncate tty umount uname \
 	 uniq update wc which whoami who
+
 # fsck mkfs nonamed printf readfs synctree sysenv termcap top xargs
+
+# sort: The minix `sort' utility failed. Gets into infinite loop.
+#       Therefore the busybox one is used. It would be worth
+#       the effort to find where is the problem.
+
+# cp: The minix `cp' doesn't work properly. During copy it writes:
+#     "cp;: can't copy xyz to itself"
 
 path_bin += cdprobe
 path_bin += chroot
-path_bin += cp
+#path_bin += cp
 path_bin += dev2name
+path_bin += df
 path_bin += getty
 path_bin += intr
 path_bin += loadramdisk
@@ -29,16 +38,16 @@ path_usr_bin += cdprobe
 path_usr_bin += chmod
 path_usr_bin += chown
 path_usr_bin += cleantmp
-path_usr_bin += cp
+#path_usr_bin += cp
 path_usr_bin += cut
 path_usr_bin += dd
 path_usr_bin += dev2name
-path_usr_bin += df
 path_usr_bin += dirname
 path_usr_bin += du
 path_usr_bin += getty
 path_usr_bin += head
 path_usr_bin += intr
+path_usr_bin += id
 path_usr_bin += kill
 path_usr_bin += loadramdisk
 path_usr_bin += login
@@ -57,7 +66,7 @@ path_usr_bin += pwd
 path_usr_bin += ramdisk
 path_usr_bin += rmdir
 path_usr_bin += sleep
-path_usr_bin += sort
+#path_usr_bin += sort
 path_usr_bin += split
 path_usr_bin += stat
 path_usr_bin += stty
@@ -81,17 +90,19 @@ path_usr_bin += whoami
 
 all: $(app-y)
 
+INSTALL_DIR=_install
+
 install: $(app-y)
 	$(STRIP) $(app-y)
-	rm -rf _install
-	mkdir _install
-	mkdir _install/bin
-	mkdir _install/sbin
-	mkdir _install/usr
-	mkdir _install/usr/bin
-	mkdir _install/usr/sbin
-	cp $(path_bin) _install/bin/
-	cp $(path_usr_bin) _install/usr/bin/
+	rm -rf $(INSTALL_DIR)
+	mkdir $(INSTALL_DIR)
+	mkdir $(INSTALL_DIR)/bin
+	mkdir $(INSTALL_DIR)/sbin
+	mkdir $(INSTALL_DIR)/usr
+	mkdir $(INSTALL_DIR)/usr/bin
+	mkdir $(INSTALL_DIR)/usr/sbin
+	cp $(path_bin) $(INSTALL_DIR)/bin/
+	cp $(path_usr_bin) $(INSTALL_DIR)/usr/bin/
 
 clean:
 	rm -rf *.o
@@ -149,6 +160,9 @@ head: head.o
 	$(CC) $(CFLAGS) -o $@ $<
 
 intr: intr.o
+	$(CC) $(CFLAGS) -o $@ $<
+
+id: id.o
 	$(CC) $(CFLAGS) -o $@ $<
 
 kill: kill.o
@@ -217,8 +231,8 @@ rmdir: rmdir.o
 sleep: sleep.o
 	$(CC) $(CFLAGS) -o $@ $<
 
-sort: sort.o
-	$(CC) $(CFLAGS) -o $@ $<
+#sort: sort.o
+#	$(CC) $(CFLAGS) -o $@ $<
 
 split: split.o
 	$(CC) $(CFLAGS) -o $@ $<

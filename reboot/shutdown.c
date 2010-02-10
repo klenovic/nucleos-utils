@@ -35,11 +35,17 @@
 #include <unistd.h>
 #include <utmp.h>
 #include <errno.h>
+#ifndef __nucleos__
 #undef WTMP
 
 static char WTMP[] =		"/usr/adm/wtmp";
 static char SHUT_PID[] =	"/usr/run/shutdown.pid";
 static char NOLOGIN[] =		"/etc/nologin";
+#else
+static char WTMP[] =		"/var/log/wtmp";
+static char SHUT_PID[] =	"/var/run/shutdown.pid";
+static char NOLOGIN[] =		"/etc/nologin";
+#endif
 
 #ifndef __STDC__
 #define inform_user_time inf_time

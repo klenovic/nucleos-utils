@@ -39,9 +39,18 @@
 #include <servers/mfs/super.h>
 #undef printf
 
+#ifdef __nucleos__
+typedef __u32 bit_t;
+typedef __kernel_block_t block_t;
+#endif
+
 #if !__minix_vmd
+#ifndef __nucleos__
 /* Map Minix-vmd names to Minix names. */
 #define v12_super_block		super_block
+#else
+#define v12_super_block		minix3_super_block
+#endif /* __nucleos__ */
 #define SUPER_V1		SUPER_MAGIC
 
 #endif

@@ -21,14 +21,6 @@
 #endif
 #include <stdio.h>
 
-#ifdef __nucleos__
-#define itoa(value) ({			\
-	char __str[20];			\
-	sprintf(__str,"%d",value);	\
-	__str;				\
-})
-#endif
-
 _PROTOTYPE(void report, (char *label));
 _PROTOTYPE(void quit, (int ex_stat));
 _PROTOTYPE(void fatal, (char *label));

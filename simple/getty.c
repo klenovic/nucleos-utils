@@ -158,7 +158,6 @@ void do_getty(char *name, size_t len, char **args, char *ttyname)
 void do_login(char *name)
 { 
   struct stat st;
-
   execl(LOGIN, LOGIN, name, (char *) NULL);
   /* Failed to exec login.  Impossible, but true.  Try a shell, but only if
    * the terminal is more or less secure, because it will be a root shell.
@@ -193,10 +192,8 @@ int main(int argc, char **argv)
 
   chown(tty_name, 0, 0);	/* set owner of TTY to root */
   chmod(tty_name, 0600);	/* mode to max secure */
-
   do_getty(name, sizeof(name), argv+1, tty_name);	/* handle getty() */
   name[29] = '\0';		/* make sure the name fits! */
-
   do_login(name);		/* and call login(1) if OK */
 
   return(1);			/* never executed */

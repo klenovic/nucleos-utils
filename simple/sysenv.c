@@ -2,9 +2,15 @@
  *								23 Dec 2000
  */
 #define nil ((void*)0)
+#ifndef __nucleos__
 #include <minix/type.h>
 #include <sys/types.h>
 #include <sys/svrctl.h>
+#else
+#include <nucleos/svrctl.h>
+#include <asm/ioctls.h>
+#include <sys/types.h>
+#endif
 #include <stdarg.h>
 #include <stdlib.h>
 #include <unistd.h>
