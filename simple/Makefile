@@ -5,17 +5,19 @@ app-y := basename cdprobe chmod chown chroot \
 	 mount newroot nice nohup passwd paste printenv \
 	 printroot pwd ramdisk rmdir sleep \
 	 split stat stty su sync tail tee \
-	 time touch tr truncate tty umount uname \
+	 time touch truncate tty umount uname \
 	 uniq update wc which whoami who
 
+### At the end all coreutils adopted from minix should get here :)
 # fsck mkfs nonamed printf readfs synctree sysenv termcap top xargs
-
+# tr
 # sort: The minix `sort' utility failed. Gets into infinite loop.
 #       Therefore the busybox one is used. It would be worth
 #       the effort to find where is the problem.
 
 # cp: The minix `cp' doesn't work properly. During copy it writes:
-#     "cp;: can't copy xyz to itself"
+#     "cp: can't copy xyz to itself"
+###
 
 path_bin += cdprobe
 path_bin += chroot
@@ -76,7 +78,7 @@ path_usr_bin += tail
 path_usr_bin += tee
 path_usr_bin += time
 path_usr_bin += touch
-path_usr_bin += tr
+#path_usr_bin += tr
 path_usr_bin += truncate
 path_usr_bin += tty
 path_usr_bin += umount
@@ -273,8 +275,8 @@ top: top.o
 touch: touch.o
 	$(CC) $(CFLAGS) -o $@ $<
 
-tr: tr.o
-	$(CC) $(CFLAGS) -o $@ $<
+#tr: tr.o
+#	$(CC) $(CFLAGS) -o $@ $<
 
 truncate: truncate.o
 	$(CC) $(CFLAGS) -o $@ $<
