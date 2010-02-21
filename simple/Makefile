@@ -2,7 +2,7 @@ app-y := basename cdprobe chmod chown chroot \
 	 cleantmp cut dd dev2name df dirname du \
 	 getty head id intr kill last \
 	 loadramdisk login ls mkdir mkfifo mknod \
-	 mount newroot nice nohup passwd paste printenv \
+	 mount newroot nice nohup passwd paste \
 	 printroot pwd ramdisk rmdir sleep \
 	 split stat stty su sync tail tee \
 	 time touch truncate tty umount uname \
@@ -10,7 +10,7 @@ app-y := basename cdprobe chmod chown chroot \
 
 ### At the end all coreutils adopted from minix should get here :)
 # fsck mkfs nonamed printf readfs synctree sysenv termcap top xargs
-# tr
+# tr printenv
 # sort: The minix `sort' utility failed. Gets into infinite loop.
 #       Therefore the busybox one is used. It would be worth
 #       the effort to find where is the problem.
@@ -62,7 +62,7 @@ path_usr_bin += newroot
 path_usr_bin += nice
 path_usr_bin += passwd
 path_usr_bin += paste
-path_usr_bin += printenv
+#path_usr_bin += printenv
 path_usr_bin += printroot
 path_usr_bin += pwd
 path_usr_bin += ramdisk
@@ -209,8 +209,8 @@ passwd: passwd.o
 paste: paste.o
 	$(CC) $(CFLAGS) -o $@ $<
 
-printenv: printenv.o
-	$(CC) $(CFLAGS) -o $@ $<
+#printenv: printenv.o
+#	$(CC) $(CFLAGS) -o $@ $<
 
 printf: printf.o
 	$(CC) $(CFLAGS) -o $@ $<
