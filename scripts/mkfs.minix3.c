@@ -174,6 +174,9 @@ _PROTOTYPE(void add_z_2, (Ino_t n, zone_t z, long bytes, long cur_time));
 _PROTOTYPE(void incr_link, (Ino_t n));
 _PROTOTYPE(void insert_bit, (block_t block, int bit));
 _PROTOTYPE(int mode_con, (char *p));
+#ifdef __nucleos__
+#define getline my_getline
+#endif
 _PROTOTYPE(void getline, (char line[LINE_LEN], char *parse[MAX_TOKENS]));
 _PROTOTYPE(void check_mtab, (char *devname));
 _PROTOTYPE(long file_time, (int f));
@@ -1148,7 +1151,6 @@ char line[LINE_LEN];
 	} while (c != 0 && c != '\n');
   }
 }
-
 
 /*================================================================
  *			other stuff
