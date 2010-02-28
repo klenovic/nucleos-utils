@@ -1,4 +1,4 @@
-app-y := basename cdprobe chmod chown chroot \
+app-y := cdprobe chmod chown chroot \
 	 cleantmp cut dd dev2name df dirname du \
 	 getty head id intr kill last \
 	 loadramdisk login ls mkdir mkfifo mknod \
@@ -10,7 +10,7 @@ app-y := basename cdprobe chmod chown chroot \
 
 ### At the end all coreutils adopted from minix should get here :)
 # fsck mkfs nonamed printf readfs synctree sysenv termcap top xargs
-# tr printenv
+# tr printenv basename 
 # sort: The minix `sort' utility failed. Gets into infinite loop.
 #       Therefore the busybox one is used. It would be worth
 #       the effort to find where is the problem.
@@ -35,7 +35,7 @@ path_bin += pwd
 path_bin += sync
 path_bin += umount
 
-path_usr_bin += basename
+#path_usr_bin += basename
 path_usr_bin += cdprobe
 path_usr_bin += chmod
 path_usr_bin += chown
@@ -116,8 +116,8 @@ distclean: clean
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-basename: basename.o
-	$(CC) $(CFLAGS) -o $@ $<
+#basename: basename.o
+#	$(CC) $(CFLAGS) -o $@ $<
 
 cdprobe: cdprobe.o
 	$(CC) $(CFLAGS) -o $@ $<

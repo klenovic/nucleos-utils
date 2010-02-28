@@ -23,7 +23,7 @@
 #include <servers/mfs/const.h>
 #endif
 
-#define MINIX_FS_TYPE "mfs"
+#define MINIX_FS_TYPE "minixfs"
 
 _PROTOTYPE(int main, (int argc, char **argv));
 _PROTOTYPE(void list, (void));
