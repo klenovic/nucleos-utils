@@ -1,7 +1,7 @@
 app-y := cdprobe chroot \
 	 cleantmp dev2name df du \
 	 getty id intr kill last \
-	 loadramdisk login \
+	 loadramdisk \
 	 mount newroot nice nohup passwd \
 	 printroot ramdisk \
 	 stat stty su \
@@ -12,7 +12,7 @@ app-y := cdprobe chroot \
 # fsck mkfs nonamed printf readfs synctree sysenv termcap top xargs
 # tr printenv basename ls chmod chown cut dd head mkdir mkfifo mknod
 # paste pwd rmdir sleep sync tail tee touch truncate uname wc split
-# dirname which tty 
+# dirname which tty login
 # uniq
 # sort: The minix `sort' utility failed. Gets into infinite loop.
 #       Therefore the busybox one is used. It would be worth
@@ -55,7 +55,7 @@ path_usr_bin += intr
 path_usr_bin += id
 path_usr_bin += kill
 path_usr_bin += loadramdisk
-path_usr_bin += login
+#path_usr_bin += login
 #path_usr_bin += ls
 #path_usr_bin += mkdir
 #path_usr_bin += mkfifo
@@ -179,8 +179,8 @@ last: last.o
 loadramdisk: loadramdisk.o
 	$(CC) $(CFLAGS) -o $@ $<
 
-login: login.o
-	$(CC) $(CFLAGS) -o $@ $<
+#login: login.o
+#	$(CC) $(CFLAGS) -o $@ $<
 
 #ls: ls.o
 #	$(CC) $(CFLAGS) -o $@ $<
