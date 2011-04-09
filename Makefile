@@ -5,7 +5,7 @@ STRIP=$(CROSS_COMPILE)strip
 CFLAGS:=-imacros $(CURDIR)/macros.h -D__nucleos__
 HOST_CFLAGS:=-imacros $(CURDIR)/macros.h -D__nucleos__
 
-export CC STRIP CFLAGS HOSTCC HOST_CFLAGS
+export CC STRIP CFLAGS HOSTCC HOST_CFLAGS KERNDELDIR
 
 subdir-y := scripts simple reboot
 #cron reboot syslogd

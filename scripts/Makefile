@@ -2,6 +2,10 @@ hostprogs-y := mkfs.minix3
 #edparams installboot mkinitrd partition
 ifneq ($(KERNELDIR),)
 HOST_CFLAGS += -idirafter $(KERNELDIR)/usr/include -I$(KERNELDIR)/usr/include
+else
+$(warning Kernel directory not specified!)
+$(warning Don't forget to run `make headers_check' in kernel directory)
+$(error Fatal fault)
 endif
 
 all: $(hostprogs-y)
