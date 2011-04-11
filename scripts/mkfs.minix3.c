@@ -29,8 +29,9 @@
 #else
 #include <nucleos/types.h>
 #include <nucleos/const.h>
-#include <servers/mfs/const.h>
-#include <servers/mfs/type.h>
+#include <nucleos/magic.h>
+#include <servers/fs/minixfs/const.h>
+#include <servers/fs/minixfs/type.h>
 #endif /* __nucleos__ */
 
 #if (MACHINE == IBM_PC)
@@ -55,10 +56,6 @@
 #define Ino_t		__kernel_ino_t
 #define ino_t		__kernel_ino_t
 
-typedef __kernel_zone1_t zone1_t;
-typedef __kernel_zone_t zone_t;
-typedef __kernel_block_t block_t;
-
 typedef unsigned short bitchunk_t;
 typedef unsigned int bit_t;
 
@@ -68,6 +65,10 @@ typedef short i16_t;
 typedef unsigned int u32_t;
 typedef int i32_t;
 typedef unsigned long long u64_t;
+
+typedef u16_t zone1_t;
+typedef u32_t zone_t;
+typedef u32_t block_t;
 
 /* The block size must be at least 1024 bytes, because otherwise
  * the superblock (at 1024 bytes) overlaps with other filesystem data.
@@ -103,8 +104,8 @@ struct direct {
 #include "../../servers/mfs/inode.h"
 #include <minix/fslib.h>
 #else
-#include <servers/mfs/super.h>
-#include <servers/mfs/type.h>
+#include <servers/fs/minixfs/super.h>
+#include <servers/fs/minixfs/type.h>
 #include <mntent.h>
 #endif /* __nucleos__ */
 
@@ -581,7 +582,7 @@ ino_t inodes;
   zoff = sup->s_firstdatazone - 1;
   sup->s_log_zone_size = zone_shift;
   if (fs_version == 1) {
-	sup->s_magic = SUPER_MAGIC;	/* identify super blocks */
+	sup->s_magic = MINIX_SUPER_MAGIC;	/* identify super blocks */
 	v1sq = (zone_t) V1_INDIRECTS * V1_INDIRECTS;
 	zo = V1_NR_DZONES + (long) V1_INDIRECTS + v1sq;
   	sup->s_max_size = zo * block_size;
@@ -589,10 +590,10 @@ ino_t inodes;
 	v2sq = (zone_t) V2_INDIRECTS(block_size) * V2_INDIRECTS(block_size);
 	zo = V2_NR_DZONES + (zone_t) V2_INDIRECTS(block_size) + v2sq;
   	if(fs_version == 2) {
-		sup->s_magic = SUPER_V2;/* identify super blocks */
+		sup->s_magic = MINIX2_SUPER_MAGIC;/* identify super blocks */
   		sup->s_max_size = zo * block_size;
 	} else {
-		sup->s_magic = SUPER_V3;
+		sup->s_magic = MINIX_SUPER_MAGIC;
   		sup->s_block_size = block_size;
   		sup->s_disk_version = 0;
 #define MAX_MAX_SIZE 	((unsigned long) LONG_MAX)

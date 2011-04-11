@@ -34,14 +34,15 @@
 #include <minix/const.h>
 #include <minix/type.h>
 #endif
-#include <servers/mfs/const.h>
-#include <servers/mfs/type.h>
-#include <servers/mfs/super.h>
+#include <nucleos/magic.h>
+#include <servers/fs/minixfs/const.h>
+#include <servers/fs/minixfs/type.h>
+#include <servers/fs/minixfs/super.h>
 #undef printf
 
 #ifdef __nucleos__
-typedef __u32 bit_t;
-typedef __kernel_block_t block_t;
+typedef u32_t bit_t;
+typedef u32_t block_t;
 #endif
 
 #if !__minix_vmd
@@ -51,7 +52,7 @@ typedef __kernel_block_t block_t;
 #else
 #define v12_super_block		minix3_super_block
 #endif /* __nucleos__ */
-#define SUPER_V1		SUPER_MAGIC
+#define SUPER_V1		MINIX_SUPER_MAGIC
 
 #endif
 
@@ -305,14 +306,14 @@ int df(const struct mtab *mt)
   }
 
   sp = &super;
-  if (sp->s_magic != SUPER_V1 && sp->s_magic != SUPER_V2
-      && sp->s_magic != SUPER_V3) {
+  if (sp->s_magic != MINIX_SUPER_MAGIC && sp->s_magic != MINIX2_SUPER_MAGIC
+      && sp->s_magic != MINIX3_SUPER_MAGIC) {
 	fprintf(stderr, "df: %s: Not a valid file system\n", mt->devname);
 	close(fd);
 	return(1);
   }
 
-  if(sp->s_magic != SUPER_V3) block_size = _STATIC_BLOCK_SIZE;
+  if(sp->s_magic != MINIX3_SUPER_MAGIC) block_size = _STATIC_BLOCK_SIZE;
   else block_size = super.s_block_size;
 
   if(block_size < _MIN_BLOCK_SIZE) {
@@ -322,7 +323,7 @@ int df(const struct mtab *mt)
 	return(1);
   }
 
-  if (sp->s_magic == SUPER_V1) sp->s_zones= sp->s_nzones;
+  if (sp->s_magic == MINIX_SUPER_MAGIC) sp->s_zones= sp->s_nzones;
 
   lseek(fd, (off_t) block_size * 2L, SEEK_SET);	/* skip rest of super block */
 

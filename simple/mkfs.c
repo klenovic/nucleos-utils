@@ -29,7 +29,7 @@
 #include "../../servers/mfs/const.h"
 #else
 #include <nucleos/const.h>
-#include <servers/mfs/const.h>
+#include <servers/fs/minxfs/const.h>
 #endif
 #if (MACHINE == IBM_PC)
 #ifndef __nucleos__
@@ -54,8 +54,8 @@
 #include "../../servers/mfs/inode.h"
 #include <minix/fslib.h>
 #else
-#include <servers/mfs/super.h>
-#include <servers/mfs/type.h>
+#include <servers/fs/minxfs/super.h>
+#include <servers/fs/minxfs/type.h>
 #include <asm/ioctls.h>
 
 #define Ino_t		ino_t
