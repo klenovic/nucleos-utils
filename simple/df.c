@@ -50,7 +50,7 @@ typedef u32_t block_t;
 /* Map Minix-vmd names to Minix names. */
 #define v12_super_block		super_block
 #else
-#define v12_super_block		minix3_super_block
+#define v12_super_block		minix_super_block
 #endif /* __nucleos__ */
 #define SUPER_V1		MINIX_SUPER_MAGIC
 

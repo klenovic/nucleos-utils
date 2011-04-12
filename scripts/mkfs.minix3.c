@@ -538,7 +538,7 @@ ino_t inodes;
 #ifndef __nucleos__
   struct super_block *sup;
 #else
-  struct minix3_super_block *sup;
+  struct minix_super_block *sup;
 #endif
   char *buf, *cp;
 
@@ -548,7 +548,7 @@ ino_t inodes;
 #ifndef __nucleos__
   sup = (struct super_block *) buf;	/* lint - might use a union */
 #else
-  sup = (struct minix3_super_block *) buf;	/* lint - might use a union */
+  sup = (struct minix_super_block *) buf;	/* lint - might use a union */
 #endif
   sup->s_ninodes = inodes;
   if (fs_version == 1) {
