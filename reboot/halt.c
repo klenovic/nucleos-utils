@@ -1,7 +1,7 @@
 /* halt / reboot - halt or reboot system (depends on name)
 
    halt   - calling reboot() with RBT_HALT
-   reboot - calling reboot() with RBT_REBOOT
+   reboot - calling reboot() with RBT_RESET
 
    author: Edvard Tuinder   v892231@si.hhs.NL
 
@@ -27,12 +27,11 @@ void usage _ARGS(( void ));
 int main _ARGS(( int argc, char *argv[] ));
 
 char *prog;
-char *reboot_code = "delay; boot";
 
 void
 usage()
 {
-  fprintf(stderr, "Usage: %s [-hrRf] [-x reboot-code]\n", prog);
+  fprintf(stderr, "Usage: %s [-hrf]\n", prog);
   exit(1);
 }
 
@@ -45,13 +44,12 @@ char **argv;
   int fast = 0;			/* fast halt/reboot, don't bother being nice. */
   int i;
   struct stat dummy;
-  char *monitor_code = "";
   pid_t pid;
 
   if ((prog = strrchr(argv[0],'/')) == NULL) prog = argv[0]; else prog++;
 
   if (strcmp(prog, "halt") == 0) flag = RBT_HALT;
-  if (strcmp(prog, "reboot") == 0) flag = RBT_REBOOT;
+  if (strcmp(prog, "reboot") == 0) flag = RBT_RESET;
 
   i = 1;
   while (i < argc && argv[i][0] == '-') {
@@ -61,18 +59,8 @@ char **argv;
 
     while (*opt != 0) switch (*opt++) {
       case 'h': flag = RBT_HALT; 	break;
-      case 'r': flag = RBT_REBOOT; 	break;
-      case 'R': flag = RBT_RESET; 	break;
+      case 'r': flag = RBT_RESET; 	break;
       case 'f': fast = 1; break;
-      case 'x':
-	flag = RBT_MONITOR;
-	if (*opt == 0) {
-	  if (i == argc) usage();
-	  opt = argv[i++];
-	}
-	monitor_code = opt;
-	opt = "";
-	break;
       default:
 	usage();
     }
@@ -83,11 +71,6 @@ char **argv;
   if (flag == -1) {
     fprintf(stderr, "Don't know what to do when named '%s'\n", prog);
     exit(1);
-  }
-
-  if (flag == RBT_REBOOT) {
-	flag = RBT_MONITOR;		/* set monitor code for reboot */
-	monitor_code = reboot_code;
   }
 
   if (stat("/usr/bin", &dummy) < 0) {
@@ -127,7 +110,7 @@ char **argv;
 
   sync();
 
-  reboot(flag, monitor_code, strlen(monitor_code));
+  reboot(flag);
   fprintf(stderr, "%s: reboot(): %s\n", prog, strerror(errno));
   return 1;
 }
