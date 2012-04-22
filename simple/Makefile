@@ -1,5 +1,5 @@
 app-y := cdprobe chroot \
-	 cleantmp dev2name df du \
+	 cleantmp dev2name du \
 	 getty id intr kill last \
 	 loadramdisk \
 	 mount newroot nice nohup passwd \
@@ -26,7 +26,7 @@ path_bin += cdprobe
 path_bin += chroot
 #path_bin += cp
 path_bin += dev2name
-path_bin += df
+#path_bin += df
 path_bin += getty
 path_bin += intr
 path_bin += loadramdisk
